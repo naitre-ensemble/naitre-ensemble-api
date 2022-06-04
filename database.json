@@ -14,5 +14,12 @@
     "database": "test",
     "port": "5432",
     "driver": "pg"
+  },
+  "prod": {
+    "user": {"ENV": "DB_PRODUCTION_USERNAME"},
+    "password" : {"ENV": "DB_PRODUCTION_PASSWORD"},
+    "host": {"ENV": "DB_PRODUCTION_HOST"},
+    "database": {"ENV": "DB_PRODUCTION_DATABASE"},
+    "driver": "pg"
   }
 }

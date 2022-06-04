@@ -16,7 +16,7 @@
     "remigrate": "npm run migrations:down-all && npm run migrations:up-all",
     "docker-compose:up:force": "docker-compose down --remove-orphans && docker-compose stop && docker container prune -f && docker volume prune -f && docker network prune -f && docker-compose --env-file ./.env  up -d --build --force-recreate && echo '***** Waiting for Postgres *****' && chmod +rx ./wait-for-postgres.sh && ./wait-for-postgres.sh && echo '***** Postgres is now available *****' && npm run migrations:up-all &&  echo '***** Migrations successfull *****' && echo '***** PGAdmin is available on http://localhost:8080 *****' && npm run start:dev",
     "reset:db:prod": "heroku pg:reset DATABASE --confirm naitre-ensemble",
-    "run:migrations:prod": "heroku run npm run up -e prod",
+    "run:migrations:prod": "heroku run npm run migrations:up-all -e prod",
     "heroku:bash": "heroku run bash"
   },
   "keywords": [],
