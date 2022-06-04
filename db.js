@@ -7,7 +7,7 @@ let pool = null;
 
 if(process.env.PORT){
   const dbProdConfig = {
-    connectionString: process.env.DATABASE_URL
+    connectionString: process.env.DATABASE_URL,
   }
   pool = new Pool(dbProdConfig);
 }else{
