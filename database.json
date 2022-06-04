@@ -1,19 +1,18 @@
 {
   "pg": {
-    "driver": "pg"
+    "driver": "pg",
+    "user": "postgres",
+    "password": "postgres",
+    "host": "localhost",
+    "database": "test",
+    "port": "5432"
   },
   "dev": {
     "user": "postgres",
-    "password" : "postgres",
+    "password": "postgres",
     "host": "localhost",
-    "database": "naitre-ensemble",
-    "driver": "pg"
-  },
-  "prod": {
-    "user": {"ENV": "DB_PRODUCTION_USERNAME"},
-    "password" : {"ENV": "DB_PRODUCTION_PASSWORD"},
-    "host": {"ENV": "DB_PRODUCTION_HOST"},
-    "database": {"ENV": "DB_PRODUCTION_DATABASE"},
+    "database": "test",
+    "port": "5432",
     "driver": "pg"
   }
 }

@@ -4,15 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "install:dependencies": "npm i",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "nodemon index.js",
     "start": "node index.js",
-    "migration": "./node_modules/.bin/db-migrate create ",
-    "up": "./node_modules/.bin/db-migrate up -c 1",
-    "up-all": "./node_modules/.bin/db-migrate up",
-    "down": "./node_modules/.bin/db-migrate down",
-    "down-all": "./node_modules/.bin/db-migrate reset",
-    "remigrate": "npm run down-all && npm run up",
+    "create-migration": "./node_modules/.bin/db-migrate create ",
+    "migration:up": "./node_modules/.bin/db-migrate up -c 1",
+    "migrations:up-all": "./node_modules/.bin/db-migrate up",
+    "migration:down": "./node_modules/.bin/db-migrate down",
+    "migrations:down-all": "./node_modules/.bin/db-migrate reset",
+    "remigrate": "npm run migrations:down-all && npm run migrations:up-all",
+    "docker-compose:up:force": "docker-compose down --remove-orphans && docker-compose stop && docker container prune -f && docker volume prune -f && docker network prune -f && docker-compose --env-file ./.env  up -d --build --force-recreate && echo '***** Waiting for Postgres *****' && chmod +rx ./wait-for-postgres.sh && ./wait-for-postgres.sh && echo '***** Postgres is now available *****' && npm run migrations:up-all &&  echo '***** Migrations successfull *****' && echo '***** PGAdmin is available on http://localhost:8080 *****' && npm run start:dev",
     "reset:db:prod": "heroku pg:reset DATABASE --confirm naitre-ensemble",
     "run:migrations:prod": "heroku run npm run up -e prod",
     "heroku:bash": "heroku run bash"
@@ -27,13 +29,21 @@
     "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.11",
     "cors": "^2.8.5",
-    "db-migrate": "^0.11.6",
-    "db-migrate-pg": "^0.5.1",
+    "db-migrate": "^0.11.12",
+    "db-migrate-pg": "^1.2.2",
     "dotenv": "^8.2.0",
+    "dotenv-flow": "^3.2.0",
     "express": "^4.17.1",
     "express-prettify": "^0.1.1",
     "helmet": "^3.22.0",
     "json-beautify": "^1.1.1",
-    "pg": "^8.0.3"
+    "nodemon": "^2.0.16",
+    "pg": "^8.5.1",
+    "pg-hstore": "^2.3.3"
+  },
+  "devDependencies": {
+    "prisma": "^3.14.0",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.2.1"
   }
 }

@@ -1,2 +1,0 @@
-DROP TABLE IF EXISTS contacts;
-DROP EXTENSION IF EXISTS "uuid-ossp";
