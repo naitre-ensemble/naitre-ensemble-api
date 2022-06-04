@@ -15,6 +15,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.raw());
 
+app.get('/', async function (req, res) {
+  res.send('Welcome on API ');
+});
+
 app.post('/subscribe', async function (req, res) {
   const email = req.body.email;
   let query = `INSERT INTO contacts (email) VALUES ($1) RETURNING *`;
