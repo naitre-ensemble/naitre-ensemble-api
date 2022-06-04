@@ -13,7 +13,7 @@
     "down": "./node_modules/.bin/db-migrate down",
     "down-all": "./node_modules/.bin/db-migrate reset",
     "remigrate": "npm run down-all && npm run up",
-    "reset:db:prod": "heroku pg:reset DATABASE --confirm desolate-journey-34342",
+    "reset:db:prod": "heroku pg:reset DATABASE --confirm postgresql-convex-63533",
     "run:migrations:prod": "heroku run npm run up -e prod",
     "heroku:bash": "heroku run bash"
   },
