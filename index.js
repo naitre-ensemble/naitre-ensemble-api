@@ -48,8 +48,26 @@ const sendForfaitEmail = ({ email, firstname, lastname, phone, forfait }) => {
   const mailOptions = {
     from: 'naitreensemblenord@gmail.fr', // sender address (who sends)
     to: 'naitreensemble@outlook.fr', // list of receivers (who receives)
-    subject: 'Demande de réservation', // Subject line
+    subject: 'Demande de forfait', // Subject line
     text: `Demande de ${forfait} pour ${firstname} ${lastname}, contacter cette personne sur ce mail : ${email} ou par téléphone au ${phone}`, // plaintext body
+  };
+
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+}
+
+const sendDevisEmail = ({ email, firstname, lastname, phone, structureName, theme }) => {
+  // setup e-mail data, even with unicode symbols
+  const mailOptions = {
+    from: 'naitreensemblenord@gmail.fr', // sender address (who sends)
+    to: 'naitreensemble@outlook.fr', // list of receivers (who receives)
+    subject: 'Demande de devis', // Subject line
+    text: `Demande de devis sur le thème ${theme} pour ${firstname} ${lastname} faisant partie de la structure ${structureName}, contacter cette personne sur ce mail : ${email} ou par téléphone au ${phone}`, // plaintext body
   };
 
   transporter.sendMail(mailOptions, function(error, info){
@@ -98,6 +116,18 @@ app.post('/forfait', async function (req, res) {
   const phone = req.body.phone;
   const forfait = req.body.forfait;
   sendForfaitEmail({email, firstname, lastname, phone, forfait});
+  res.statusCode = 200;
+  res.send({message: 'Demande envoyée'});
+});
+
+app.post('/devis', async function (req, res) {
+  const email = req.body.email;
+  const firstname = req.body.firstname;
+  const lastname = req.body.lastname;
+  const phone = req.body.phone;
+  const structureName = req.body.structureName;
+  const theme = req.body.theme;
+  sendDevisEmail({email, firstname, lastname, phone, structureName, theme});
   res.statusCode = 200;
   res.send({message: 'Demande envoyée'});
 });
