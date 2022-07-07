@@ -59,17 +59,18 @@ app.post('/subscribe', async function (req, res) {
 });
 
 app.post('/message', async function (req, res) {
-  const email = req.body.email;
-  const firsname = req.body.firstname;
-  const lastname = req.body.lastname;
-  const message = req.body.message;
-  const phone = req.body.phone;
-  console.log(email, firsname, lastname, message, phone);
-  let query = `INSERT INTO messages (email, phone, firstname, lastname, message) VALUES ($1, $2, $3, $4, $5) RETURNING *`;
-  const response = await execQueryWithParams(query, [email, phone, firsname, lastname, message]);
-  if(response[0]){
-    res.send({message: 'Message envoyé'});
-  }
+  console.log(req.body);
+  // const email = req.body.email;
+  // const firsname = req.body.firstname;
+  // const lastname = req.body.lastname;
+  // const message = req.body.message;
+  // const phone = req.body.phone;
+  // console.log(email, firsname, lastname, message, phone);
+  // let query = `INSERT INTO messages (email, phone, firstname, lastname, message) VALUES ($1, $2, $3, $4, $5) RETURNING *`;
+  // const response = await execQueryWithParams(query, [email, phone, firsname, lastname, message]);
+  // if(response[0]){
+  //   res.send({message: 'Message envoyé'});
+  // }
 });
 
 app.listen(process.env.PORT || 5000, () => {
