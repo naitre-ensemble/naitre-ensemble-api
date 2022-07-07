@@ -1,7 +1,7 @@
-CREATE TABLE IF NOT EXISTS contacts (
+CREATE TABLE IF NOT EXISTS formations (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  email TEXT NOT NULL,
-  active BOOLEAN NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  content JSON DEFAULT '[]',
   created_on timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  UNIQUE(email)
+  UNIQUE(title)
 );

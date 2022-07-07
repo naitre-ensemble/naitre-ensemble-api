@@ -30,4 +30,12 @@ heroku pg:reset DATABASE --confirm naitre-ensemble
 
 git push heroku main
 
+*** Kill les instances postgres ***
+
+sudo lsof -i :5432    
+
+sudo pkill -u postgres
+
+
+
 
