@@ -15,22 +15,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.raw());
 
-// Create the transporter with the required configuration for Outlook
-// change the user and pass !
-// const transporter = nodemailer.createTransport({
-//     host: "smtp-mail.outlook.com", // hostname
-//     secureConnection: false, // TLS requires secureConnection to be false
-//     port: 587, // port for secure SMTP
-//     tls: {
-//        ciphers:'SSLv3'
-//     },
-//     auth: {
-//         user: 'naitreensemble@outlook.fr',
-//         pass: 'Funhak09'
-//     }
-// });
-
-
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
   port: 465,
@@ -41,15 +25,31 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-
-
-const sendEmail = ({ email, firstname, lastname, phone, prestation, date }) => {
+const sendPrestationEmail = ({ email, firstname, lastname, phone, prestation, date }) => {
   // setup e-mail data, even with unicode symbols
   const mailOptions = {
     from: 'naitreensemblenord@gmail.fr', // sender address (who sends)
     to: 'naitreensemble@outlook.fr', // list of receivers (who receives)
     subject: 'Demande de réservation', // Subject line
     text: `Demande de réservation souhaitée le ${date} pour "${prestation}" de  ${firstname} ${lastname}, contacter cette personne sur ce mail : ${email} ou par téléphone au ${phone}`, // plaintext body
+  };
+
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+}
+
+const sendForfaitEmail = ({ email, firstname, lastname, phone, forfait }) => {
+  // setup e-mail data, even with unicode symbols
+  const mailOptions = {
+    from: 'naitreensemblenord@gmail.fr', // sender address (who sends)
+    to: 'naitreensemble@outlook.fr', // list of receivers (who receives)
+    subject: 'Demande de réservation', // Subject line
+    text: `Demande de ${forfait} pour ${firstname} ${lastname}, contacter cette personne sur ce mail : ${email} ou par téléphone au ${phone}`, // plaintext body
   };
 
   transporter.sendMail(mailOptions, function(error, info){
@@ -79,17 +79,25 @@ app.post('/subscribe', async function (req, res) {
   }
 });
 
-app.post('/message', async function (req, res) {
-  console.log(req.body);
+app.post('/prestation', async function (req, res) {
   const email = req.body.email;
   const firstname = req.body.firstname;
   const lastname = req.body.lastname;
   const phone = req.body.phone;
   const prestation = req.body.prestation;
   const date = req.body.date;
+  sendPrestationEmail({email, firstname, lastname, phone, prestation, date});
+  res.statusCode = 200;
+  res.send({message: 'Demande envoyée'});
+});
 
-  sendEmail({email, firstname, lastname, phone, prestation, date});
-
+app.post('/forfait', async function (req, res) {
+  const email = req.body.email;
+  const firstname = req.body.firstname;
+  const lastname = req.body.lastname;
+  const phone = req.body.phone;
+  const forfait = req.body.forfait;
+  sendForfaitEmail({email, firstname, lastname, phone, forfait});
   res.statusCode = 200;
   res.send({message: 'Demande envoyée'});
 });
