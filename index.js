@@ -69,10 +69,10 @@ app.post('/subscribe', async function (req, res) {
 
 app.post('/message', async function (req, res) {
   console.log(req.body);
-  const email = req.body?.email;
-  const firstname = req.body?.firstname;
-  const lastname = req.body?.lastname;
-  const phone = req.body?.phone;
+  const email = req.body.email;
+  const firstname = req.body.firstname;
+  const lastname = req.body.lastname;
+  const phone = req.body.phone;
 
   sendEmail({email, firstname, lastname, phone});
 
