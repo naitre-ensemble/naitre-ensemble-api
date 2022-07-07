@@ -79,6 +79,24 @@ const sendDevisEmail = ({ email, firstname, lastname, phone, structureName, them
   });
 }
 
+const sendContactEmail = ({ email, firstname, lastname, phone, message }) => {
+  // setup e-mail data, even with unicode symbols
+  const mailOptions = {
+    from: 'naitreensemblenord@gmail.fr', // sender address (who sends)
+    to: 'naitreensemble@outlook.fr', // list of receivers (who receives)
+    subject: 'Demande de contact', // Subject line
+    text: `Demande de contact pour ${firstname} ${lastname}, contacter cette personne sur ce mail : ${email} ou par téléphone au ${phone}. Voici son message : ${message}`, // plaintext body
+  };
+
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+}
+
 app.get('/', async function (req, res) {
   res.send('Welcome on Naitre ensemble');
 });
@@ -128,6 +146,17 @@ app.post('/devis', async function (req, res) {
   const structureName = req.body.structureName;
   const theme = req.body.theme;
   sendDevisEmail({email, firstname, lastname, phone, structureName, theme});
+  res.statusCode = 200;
+  res.send({message: 'Demande envoyée'});
+});
+
+app.post('/contact', async function (req, res) {
+  const email = req.body.email;
+  const firstname = req.body.firstname;
+  const lastname = req.body.lastname;
+  const phone = req.body.phone;
+  const message = req.body.message;
+  sendContactEmail({email, firstname, lastname, phone, message});
   res.statusCode = 200;
   res.send({message: 'Demande envoyée'});
 });
