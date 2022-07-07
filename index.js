@@ -17,24 +17,33 @@ app.use(bodyParser.raw());
 
 // Create the transporter with the required configuration for Outlook
 // change the user and pass !
+// const transporter = nodemailer.createTransport({
+//     host: "smtp-mail.outlook.com", // hostname
+//     secureConnection: false, // TLS requires secureConnection to be false
+//     port: 587, // port for secure SMTP
+//     tls: {
+//        ciphers:'SSLv3'
+//     },
+//     auth: {
+//         user: 'naitreensemble@outlook.fr',
+//         pass: 'Funhak09'
+//     }
+// });
+
 const transporter = nodemailer.createTransport({
-    host: "smtp-mail.outlook.com", // hostname
-    secureConnection: false, // TLS requires secureConnection to be false
-    port: 587, // port for secure SMTP
-    tls: {
-       ciphers:'SSLv3'
-    },
-    auth: {
-        user: 'naitreensemble@outlook.fr',
-        pass: 'Funhak09'
-    }
+  service: 'gmail',
+  auth: {
+    user: 'naitreensemblenord@gmail.fr',
+    pass: 'Funhak'
+  }
 });
+
 
 
 const sendEmail = ({ email, firstname, lastname, phone }) => {
   // setup e-mail data, even with unicode symbols
   const mailOptions = {
-    from: 'naitreensemble@outlook.fr', // sender address (who sends)
+    from: 'naitreensemblenord@gmail.fr', // sender address (who sends)
     to: 'naitreensemble@outlook.fr', // list of receivers (who receives)
     subject: 'Demande de réservation', // Subject line
     text: `Demande de réservation de  ${firstname} ${lastname}, contacter cette personne sur ce mail : ${email} ou par téléphone au ${phone}`, // plaintext body
