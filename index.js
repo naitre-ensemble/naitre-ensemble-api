@@ -33,7 +33,7 @@ app.use(bodyParser.raw());
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'naitreensemblenord@gmail.fr',
+    user: 'naitreensemblenord@gmail.com',
     pass: 'Funhak09'
   }
 });
