@@ -15,20 +15,29 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.raw());
 
+// Create the transporter with the required configuration for Outlook
+// change the user and pass !
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'youremail@gmail.com',
-    pass: 'yourpassword'
-  }
+    host: "smtp-mail.outlook.com", // hostname
+    secureConnection: false, // TLS requires secureConnection to be false
+    port: 587, // port for secure SMTP
+    tls: {
+       ciphers:'SSLv3'
+    },
+    auth: {
+        user: 'naitreensemble@outlook.fr',
+        pass: 'Funhak09'
+    }
 });
 
-const sendEmail = () => {
+
+const sendEmail = ({ email, firstname, lastname, phone }) => {
+  // setup e-mail data, even with unicode symbols
   const mailOptions = {
-    from: 'youremail@gmail.com',
-    to: 'myfriend@yahoo.com',
-    subject: 'Sending Email using Node.js',
-    text: 'That was easy!'
+    from: 'naitreensemble@outlook.fr', // sender address (who sends)
+    to: 'naitreensemble@outlook.fr', // list of receivers (who receives)
+    subject: 'Demande de réservation', // Subject line
+    text: `Demande de réservation de  ${firstname} ${lastname}, contacter cette personne sur ce mail : ${email} ou par téléphone au ${phone}`, // plaintext body
   };
 
   transporter.sendMail(mailOptions, function(error, info){
@@ -60,17 +69,15 @@ app.post('/subscribe', async function (req, res) {
 
 app.post('/message', async function (req, res) {
   console.log(req.body);
-  // const email = req.body.email;
-  // const firsname = req.body.firstname;
-  // const lastname = req.body.lastname;
-  // const message = req.body.message;
-  // const phone = req.body.phone;
-  // console.log(email, firsname, lastname, message, phone);
-  // let query = `INSERT INTO messages (email, phone, firstname, lastname, message) VALUES ($1, $2, $3, $4, $5) RETURNING *`;
-  // const response = await execQueryWithParams(query, [email, phone, firsname, lastname, message]);
-  // if(response[0]){
-  //   res.send({message: 'Message envoyé'});
-  // }
+  const email = req.body?.email;
+  const firstname = req.body?.firstname;
+  const lastname = req.body?.lastname;
+  const phone = req.body?.phone;
+
+  sendEmail({email, firstname, lastname, phone});
+
+  res.statusCode = 200;
+  res.send({message: 'Demande envoyée'});
 });
 
 app.listen(process.env.PORT || 5000, () => {

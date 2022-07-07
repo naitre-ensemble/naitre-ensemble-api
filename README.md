@@ -36,6 +36,10 @@ sudo lsof -i :5432
 
 sudo pkill -u postgres
 
+*** Voir les logs ***
+
+heroku logs --tail
+
 
 
 
