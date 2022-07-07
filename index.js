@@ -4,7 +4,7 @@ const express = require("express");
 const pretty = require('express-prettify');
 const cors = require('cors');
 const helmet = require("helmet");
-const { execQuery, execQueryWithParams } = require('./db');
+const { execQueryWithParams } = require('./db');
 const bodyParser = require('body-parser');
 const app = express();
 
@@ -43,13 +43,13 @@ const transporter = nodemailer.createTransport({
 
 
 
-const sendEmail = ({ email, firstname, lastname, phone }) => {
+const sendEmail = ({ email, firstname, lastname, phone, prestation, date }) => {
   // setup e-mail data, even with unicode symbols
   const mailOptions = {
     from: 'naitreensemblenord@gmail.fr', // sender address (who sends)
     to: 'naitreensemble@outlook.fr', // list of receivers (who receives)
     subject: 'Demande de réservation', // Subject line
-    text: `Demande de réservation de  ${firstname} ${lastname}, contacter cette personne sur ce mail : ${email} ou par téléphone au ${phone}`, // plaintext body
+    text: `Demande de réservation souhaitée le ${date} pour "${prestation}" de  ${firstname} ${lastname}, contacter cette personne sur ce mail : ${email} ou par téléphone au ${phone}`, // plaintext body
   };
 
   transporter.sendMail(mailOptions, function(error, info){
@@ -85,8 +85,10 @@ app.post('/message', async function (req, res) {
   const firstname = req.body.firstname;
   const lastname = req.body.lastname;
   const phone = req.body.phone;
+  const prestation = req.body.prestation;
+  const date = req.body.date;
 
-  sendEmail({email, firstname, lastname, phone});
+  sendEmail({email, firstname, lastname, phone, prestation, date});
 
   res.statusCode = 200;
   res.send({message: 'Demande envoyée'});
