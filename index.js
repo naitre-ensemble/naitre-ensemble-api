@@ -31,7 +31,7 @@ const sendBonCadeauEmail = ({ email, firstname, lastname, phone, prestation, liv
   const mailOptions = {
     from: 'naitreensemblenord@gmail.fr', // sender address (who sends)
     to: 'naitreensemble@outlook.fr', // list of receivers (who receives)
-    subject: 'Demande de réservation', // Subject line
+    subject: 'Demande de bon cadeau', // Subject line
     text: `Demande de bon cadeau souhaitée pour "${prestation}" de  ${firstname} ${lastname}, contacter cette personne sur ce mail : ${email} ou par téléphone au ${phone}. Le destinataire est ${destinataire}. Le mode de livraison est ${livraison}. Le destinataire est ${destinataire}`, // plaintext body
   };
 
