@@ -4,7 +4,6 @@ const express = require("express");
 const pretty = require('express-prettify');
 const cors = require('cors');
 const helmet = require("helmet");
-const { execQueryWithParams } = require('./db');
 const bodyParser = require('body-parser');
 const app = express();
 
@@ -120,19 +119,19 @@ app.get('/', async function (req, res) {
   res.send('Welcome on Naitre ensemble');
 });
 
-app.post('/subscribe', async function (req, res) {
-  const email = req.body.email;
-  console.log(email);
-  let query = `INSERT INTO contacts (email) VALUES ($1) RETURNING *`;
-  const response = await execQueryWithParams(query, [email]);
-  if(response.code === '23505'){ 
-    res.statusCode = 500;
-    res.send({message: 'Email already in database'});
-  };
-  if(response[0]){
-    res.send({message: 'Email registered'});
-  }
-});
+// app.post('/subscribe', async function (req, res) {
+//   const email = req.body.email;
+//   console.log(email);
+//   let query = `INSERT INTO contacts (email) VALUES ($1) RETURNING *`;
+//   const response = await execQueryWithParams(query, [email]);
+//   if(response.code === '23505'){ 
+//     res.statusCode = 500;
+//     res.send({message: 'Email already in database'});
+//   };
+//   if(response[0]){
+//     res.send({message: 'Email registered'});
+//   }
+// });
 
 app.post('/cadeau', async function (req, res) {
   const email = req.body.email;
